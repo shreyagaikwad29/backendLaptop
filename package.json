@@ -16,7 +16,10 @@
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.3",
+<<<<<<< HEAD
     "nodemailer": "^6.9.16",
+=======
+>>>>>>> 1d6a85375b0c6b431f59a4581b302a4abb0d1849
     "nodemon": "^3.1.7",
     "zod": "^3.23.8"
   }
