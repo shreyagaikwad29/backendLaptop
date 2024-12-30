@@ -1,4 +1,6 @@
-const ticketlist = require("../models/ticketlist-model");
+
+const ticketlist = require("../models/ticket-model");
+
 
 const ticketlistform = async(req, res)=>{
     try {

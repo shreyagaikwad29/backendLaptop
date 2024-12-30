@@ -5,6 +5,7 @@ const connectDB = require("./utils/db")
 const authRoute = require("./router/auth-router");
 const contactRoute = require("./router/contact-router");
 const ticketRoute = require("./router/ticket-router");
+const adminroute = require("./router/admin-router");
 const cors = require("cors");
 const errormiddleware = require('./middlewares/error-middleware');
 
@@ -27,7 +28,7 @@ app.use("/", authRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
 app.use("/api/ticketform",ticketRoute);
-
+app.use("/api/admin", adminroute)
 
 
 // app.get("/",(req, res)=>{

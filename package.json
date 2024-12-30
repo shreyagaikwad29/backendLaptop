@@ -16,9 +16,17 @@
     "dotenv": "^16.4.6",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+<<<<<<< HEAD
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.2",
     "node": "^23.5.0",
+=======
+    "mongoose": "^8.8.3",
+<<<<<<< HEAD
+    "nodemailer": "^6.9.16",
+=======
+>>>>>>> 1d6a85375b0c6b431f59a4581b302a4abb0d1849
+>>>>>>> 45d921df0ca30f1dffcc2ccf4e93f4c55a043d6f
     "nodemon": "^3.1.7",
     "zod": "^3.23.8"
   }
