@@ -1,81 +1,8 @@
-const ticket = require("../models/ticket-model");
-const nodemailer = require('nodeemailer');
+// const ticket = require("../models/ticket-model");
+// const nodemailer = require("nodemailer");
 
 
 
-
-
-
-// Email configuration
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'shreyaagaikwad11@gmail.com',
-    pass: 'shreya@2953',
-  },
-});
-
-const sendEmail = (ticket) => {
-    const mailOptions = {
-      from: 'shreyaagaikwad11@gmail.com',
-      to: ticket.email,
-      subject: `Ticket Created: ${ticket.ticketNumber}`,
-      text: `Dear ${ticket.name},
-            Your ticket has been successfully created. Below are the details:
-            
-            - **Ticket Number**: ${ticket.ticketNumber}
-            - **Assigned Person**: ${ticket.assignedPerson}
-            - **Status**: ${ticket.status}
-            
-            We will get back to you as soon as possible.
-            
-            Thank you,
-            Support Team`,
-    };
-  
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending email:', error);
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
-  };
-
-  const createTicket = async (req, res) => {
-    try {
-      const { name, email, issue } = req.body;
-  
-      // Array of possible assigned persons
-      const assignedPersons = ["John Doe", "Jane Smith", "Emily Davis", "Michael Brown", "Sarah Wilson"];
-  
-      // Randomly select a name
-      const randomAssignedPerson = assignedPersons[Math.floor(Math.random() * assignedPersons.length)];
-  
-      // Create the ticket
-      const ticket = new Ticket({
-        name,
-        email,
-        mobile,
-        customerType,
-        issue,
-        assignedPerson: randomAssignedPerson,
-        status: "Pending",
-        createdAt: new Date(),
-      });
-  
-      await ticket.save();
-  
-      // Send email to the customer
-      sendEmail(ticket);
-  
-      res.status(201).send({ message: "Ticket created successfully", ticket });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: "Error creating ticket" });
-    }
-  };
-  
 
 
 // const ticketForm = async(req, res)=>{
@@ -88,5 +15,57 @@ const sendEmail = (ticket) => {
 //     }
 // }
 
-module.exports = { createTicket };
+// module.exports = ticketForm;
 
+const ticket = require("../models/ticket-model");
+const transporter = require("../utils/email"); // Import the transporter
+
+const ticketForm = async (req, res) => {
+    try {
+        const response = req.body;
+        console.log("Request body:", response); 
+        // Save the ticket to the database
+        await ticket.create(response);
+        console.log("Ticket saved to database");
+
+        // Email details
+        const mailOptions = {
+            from: process.env.EMAIL_USER, // Sender address from the .env file
+            to: response.email, // Recipient's email from the request body
+            subject: 'Ticket Created Successfully',
+            text: `
+                Hello ${response.name},
+
+                Thank you for reaching out to us. Your ticket has been successfully created. We will address your concern as soon as possible.
+
+                Here are your ticket details:
+                Name: ${response.name}
+                Mobile: ${response.mobile}
+                Customer Type: ${response.customerType}
+                Issue: ${response.issue}
+
+                Best regards,
+                Your Support Team`,
+        };
+        console.log("Mail options:", mailOptions);
+        // Send the email
+        // await transporter.sendMail(mailOptions);
+
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log("Email sent successfully");
+        } catch (emailError) {
+            console.error("Error sending email:", emailError);
+            throw new Error("Email sending failed");
+        }
+        
+        
+
+        return res.status(200).json({ message: "Ticket created and email sent successfully" });
+    } catch (error) {
+        console.error("Error in ticketForm:", error);
+        return res.status(500).json({ message: "Ticket not created or email failed to send" });
+    }
+};
+
+module.exports = ticketForm;
