@@ -8,6 +8,7 @@ const ticketRoute = require("./router/ticket-router");
 const adminroute = require("./router/admin-router");
 const cors = require("cors");
 const errormiddleware = require('./middlewares/error-middleware');
+const transporter = require('./utils/email'); 
 
 //^ lets tackle cors
 
@@ -29,6 +30,14 @@ app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
 app.use("/api/ticketform",ticketRoute);
 app.use("/api/admin", adminroute)
+
+transporter.verify((error) => {
+    if (error) {
+        console.error("Email transporter error:", error);
+    } else {
+        console.log("Email transporter ready");
+    }
+});
 
 
 // app.get("/",(req, res)=>{
