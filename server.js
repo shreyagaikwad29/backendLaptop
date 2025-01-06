@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const connectDB = require("./utils/db")
@@ -6,9 +6,12 @@ const authRoute = require("./router/auth-router");
 const contactRoute = require("./router/contact-router");
 const ticketRoute = require("./router/ticket-router");
 const adminroute = require("./router/admin-router");
+const sendmail = require("./router/sendmail-router");
 const cors = require("cors");
 const errormiddleware = require('./middlewares/error-middleware');
 const transporter = require('./utils/email'); 
+
+
 
 //^ lets tackle cors
 
@@ -30,7 +33,9 @@ app.use("/api/auth", authRoute);
 app.use("/api/form", contactRoute);
 app.use("/api/ticketform",ticketRoute);
 app.use("/api/admin", adminroute)
-
+app.use("/api/send-mail", sendmail)
+// Static folder for uploaded files
+app.use("/uploads", express.static("uploads"));
 transporter.verify((error) => {
     if (error) {
         console.error("Email transporter error:", error);

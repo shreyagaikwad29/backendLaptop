@@ -1,0 +1,6 @@
+SELECT cc.consumer_id,cc.claim_status,c.first_name,c.last_name,c.mobile,c.email,cc.created_at,cc.updated_at
+FROM campaign_claim cc INNER JOIN consumer c 
+ON cc.consumer_id = c.id
+WHERE claim_status='claim_pending' AND
+      cc.created_at BETWEEN '2024-09-13' AND '2024-10-18'
+	  
