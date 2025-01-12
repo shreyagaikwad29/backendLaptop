@@ -13,11 +13,18 @@ const authMiddleware = async (req, res, next) => {
 
     const jwtToken = token.replace("Bearer", "").trim();
     console.log("Token from auth middleware:", jwtToken);
+    console.log("Authorization Header:", req.header("Authorization"));
+    console.log("Extracted Token:", jwtToken);
 
     try {
+        if (!jwtToken || jwtToken.split('.').length !== 3) {
+            return res.status(400).json({
+                message: "Malformed token",
+            });
+        }
         // Verify the JWT token
         const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
-
+        console.log("Token verification successful:", isVerified);
         // Fetch user data from the database, excluding the password field
         const userData = await User.findOne({ email: isVerified.email }).select({password:0 });
 

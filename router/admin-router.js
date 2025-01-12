@@ -7,6 +7,8 @@ const adminMiddleware = require("../middlewares/admin-middleware");
 
 
 router.route("/users").get(authMiddleware,adminMiddleware,adminContoller.getAllUsers);
+router.route("/users/:id").get(authMiddleware,adminMiddleware,adminContoller.getUserById);
+router.route("/users/delete/:id").delete(authMiddleware, adminMiddleware, adminContoller.deleteUserById);
 router.route("/contacts").get(authMiddleware,adminMiddleware, adminContoller.getAllContacts);
 
 module.exports = router;
