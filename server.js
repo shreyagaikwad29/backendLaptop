@@ -17,9 +17,9 @@ const transporter = require('./utils/email');
 
 const corsOptions ={
     origin: "http://localhost:3000",
-    methods: ["GET, POST, PUT, DELETE, PATCH, HEAD"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
-    allowedHeaders: 'Content-Type,Authorization,X-Custom-Header',
+    allowedHeaders:  ["Content-Type", "Authorization", "X-Custom-Header"],
     //allowedHeaders: ["Content-Type", "application/json"], // Allow specific headers if needed
    // preflightContinue: false, // Don't pass control to the next handler for preflight
     optionsSuccessStatus: 204 
